@@ -11,13 +11,15 @@ class League
     private $lastGames;
     private $nextGames;
     private $gameWithoutNulRanking;
+    private $slug;
 
-    public function __construct(string $name, string $link)
+    public function __construct(string $name, string $slug, string $link)
     {
         $this->name = $name;
         $this->link = $link;
         $this->teams = [];
         $this->ranking = [];
+        $this->slug = $slug;
     }
 
     public function getName(): string
@@ -103,5 +105,10 @@ class League
         $this->gameWithoutNulRanking = $games;
 
         return $this;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
     }
 }

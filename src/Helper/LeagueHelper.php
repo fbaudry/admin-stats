@@ -22,10 +22,10 @@ class LeagueHelper implements ServiceSubscriberInterface
     {
         return [
             GameHelper::class,
-            JsonParser::class,
             TeamHelper::class
         ];
     }
+
 
     /**
      * @return League[]
@@ -41,7 +41,7 @@ class LeagueHelper implements ServiceSubscriberInterface
         $leagues = [];
 
         foreach ($leagueDatas as $data) {
-            $league = new League($data['name'], $data['link']);
+            $league = new League($data['name'], $data['slug'], $data['link']);
             $league
                 ->setRanking($this->getRanking($league))
                 ->setLastGames($gameHelper->getLastGames($league))

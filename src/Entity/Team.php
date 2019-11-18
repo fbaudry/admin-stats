@@ -13,7 +13,7 @@ class Team
         $this->name = $name;
     }
 
-    public function getLeague(): string
+    public function getLeague(): League
     {
         return $this->league;
     }

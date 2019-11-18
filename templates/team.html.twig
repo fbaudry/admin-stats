@@ -1,0 +1,159 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h1 mb-0 text-gray-800">{{ team.name }}</h1>
+    </div>
+
+    <div class="d-sm-flex align-items-center justify-content-between">
+        <h2 class="h4 mb-0 text-gray-800">Cette saison</h2>
+    </div>
+
+    <div class="row mb-4">
+        {% set nbGames =  teamResults['won'] + teamResults['nul'] + teamResults['lost'] %}
+        {# Matchs gagnés #}
+        <div class="col-xl-4 col-lg-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ teamResults['won'] }} ({{ ((teamResults['won']*100)/nbGames)|number_format(0) }} %)</div>
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Matchs gagnés</div>
+                        </div>
+                        <div class="col-auto"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Matchs nuls #}
+        <div class="col-xl-4 col-lg-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ teamResults['nul'] }} ({{ ((teamResults['nul']*100)/nbGames)|number_format(0) }} %)</div>
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Matchs nuls</div>
+                        </div>
+                        <div class="col-auto"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Matchs perdus #}
+        <div class="col-xl-4 col-lg-4">
+            <div class="card border-left-danger shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ teamResults['lost'] }} ({{ ((teamResults['lost']*100)/nbGames)|number_format(0) }} %)</div>
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Matchs perdus</div>
+                        </div>
+                        <div class="col-auto"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row mb-4">
+        <div class="col-xl-6 col-lg-6">
+            <div class="col-xl-12 col-lg-12">
+                <h3 class="h6 mb-0 text-gray-800">À domicile</h3>
+            </div>
+            <div class="row">
+                {% set nbGames =  homeTeamResults['won'] + homeTeamResults['nul'] + homeTeamResults['lost'] %}
+                {# Matchs gagnés #}
+                <div class="col-xl-4 col-lg-4">
+                    <div class="card border-left-success shadow h-100 py-2">
+                        <div class="row no-gutters align-items-center pl-2">
+                            <div class="col mr-2">
+                                <div class="mb-0 font-weight-bold text-gray-800">{{ homeTeamResults['won'] }} ({{ ((homeTeamResults['won']*100)/nbGames)|number_format(0) }} %)</div>
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Matchs gagnés</div>
+                            </div>
+                            <div class="col-auto"></div>
+                        </div>
+                    </div>
+                </div>
+
+                {# Matchs nuls #}
+                <div class="col-xl-4 col-lg-4">
+                    <div class="card border-left-warning shadow h-100 py-2">
+                        <div class="row no-gutters align-items-center pl-2">
+                            <div class="col mr-2">
+                                <div class="mb-0 font-weight-bold text-gray-800">{{ homeTeamResults['nul'] }} ({{ ((homeTeamResults['nul']*100)/nbGames)|number_format(0) }} %)</div>
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Matchs nuls</div>
+                            </div>
+                            <div class="col-auto"></div>
+                        </div>
+                    </div>
+                </div>
+
+                {# Matchs perdus #}
+                <div class="col-xl-4 col-lg-4">
+                    <div class="card border-left-danger shadow h-100 py-2">
+                        <div class="row no-gutters align-items-center pl-2">
+                            <div class="col mr-2">
+                                <div class="mb-0 font-weight-bold text-gray-800">{{ homeTeamResults['lost'] }} ({{ ((homeTeamResults['lost']*100)/nbGames)|number_format(0) }} %)</div>
+                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Matchs perdus</div>
+                            </div>
+                            <div class="col-auto"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6 col-lg-6">
+            <div class="col-xl-12 col-lg-12">
+                <h3 class="h6 mb-0 text-gray-800">À l'exterieur</h3>
+            </div>
+            <div class="row">
+                {% set nbGames =  awayTeamResults['won'] + awayTeamResults['nul'] + awayTeamResults['lost'] %}
+                {# Matchs gagnés #}
+                <div class="col-xl-4 col-lg-4">
+                    <div class="card border-left-success shadow h-100 py-2">
+                        <div class="row no-gutters align-items-center pl-2">
+                            <div class="col mr-2">
+                                <div class="mb-0 font-weight-bold text-gray-800">{{ awayTeamResults['won'] }} ({{ ((awayTeamResults['won']*100)/nbGames)|number_format(0) }} %)</div>
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Matchs gagnés</div>
+                            </div>
+                            <div class="col-auto"></div>
+                        </div>
+                    </div>
+                </div>
+
+                {# Matchs nuls #}
+                <div class="col-xl-4 col-lg-4">
+                    <div class="card border-left-warning shadow h-100 py-2">
+                        <div class="row no-gutters align-items-center pl-2">
+                            <div class="col mr-2">
+                                <div class="mb-0 font-weight-bold text-gray-800">{{ awayTeamResults['nul'] }} ({{ ((awayTeamResults['nul']*100)/nbGames)|number_format(0) }} %)</div>
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Matchs nuls</div>
+                            </div>
+                            <div class="col-auto"></div>
+                        </div>
+                    </div>
+                </div>
+
+                {# Matchs perdus #}
+                <div class="col-xl-4 col-lg-4">
+                    <div class="card border-left-danger shadow h-100 py-2">
+                        <div class="row no-gutters align-items-center pl-2">
+                            <div class="col mr-2">
+                                <div class="mb-0 font-weight-bold text-gray-800">{{ awayTeamResults['lost'] }} ({{ ((awayTeamResults['lost']*100)/nbGames)|number_format(0) }} %)</div>
+                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Matchs perdus</div>
+                            </div>
+                            <div class="col-auto"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h2 class="h4 mb-0 text-gray-800">Les 10 dernières années</h2>
+    </div>
+{% endblock %}

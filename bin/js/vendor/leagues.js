@@ -1,5 +1,6 @@
 const fs = require('fs');
 const puppeteer = require('puppeteer');
+const slugify = require('./slugify');
 
 const flash_resultats_homepage = 'https://www.flashresultats.fr';
 
@@ -23,13 +24,13 @@ const start = async() => {
 
             return {
                 link: league.children[1].href,
-                name: league.children[1].innerText
+                name: league.children[1].innerText,
             };
         });
     });
 
     browser.close();
-    let leagues = resultats.filter(league => { return null != league; });
+    let leagues = resultats.filter(league => { return null != league; }).map(league => { league.slug = slugify.slugify(league.name); return league; });
 
     fs.writeFileSync(
         'public/json/leagues/leagues.json',

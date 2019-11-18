@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">{{ league.name }} - 2019/2020</h1>
+    </div>
+
+    <div class="row">
+
+        {# Top des champions du match nul #}
+        <div class="col-xl-4 col-lg-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Top des champions du match nul</h6>
+                </div>
+                <div class="card-body">
+                    {% for team in teamWithMostNulGames %}
+                        <h4 class="small font-weight-bold">
+                            {{ loop.index }}. {{ team.name }} <span class="float-right">{{ team.nbPoints }}</span>
+                        </h4>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        {# Top des champions du match nul à domicile #}
+        <div class="col-xl-4 col-lg-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Top des champions du match nul à domicile</h6>
+                </div>
+                <div class="card-body">
+                    {% for team in homeTeamWithMostNulGames %}
+                        <h4 class="small font-weight-bold">
+                            {{ loop.index }}. {{ team.name }} <span class="float-right">{{ team.nbPoints }}</span>
+                        </h4>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        {# Top des champions du match nul à l'exterieur #}
+        <div class="col-xl-4 col-lg-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Top des champions du match nul à l'exterieur</h6>
+                </div>
+                <div class="card-body">
+                    {% for team in awayTeamWithMostNulGames %}
+                        <h4 class="small font-weight-bold">
+                            {{ loop.index }}. {{ team.name }} <span class="float-right">{{ team.nbPoints }}</span>
+                        </h4>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

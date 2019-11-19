@@ -156,4 +156,38 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h2 class="h4 mb-0 text-gray-800">Les 10 dernières années</h2>
     </div>
+
+    <div class="row">
+        <div class="col-xl-8 col-lg-7">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Record de série de match sans match nul</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="chart-area">
+                        <canvas id="nul-games-record-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+
+    <script src="{{ asset('js/admin-chart.js') }}"></script>
+    <script async>
+        var keys = []; var values = [];
+        {% for key, record in recordsPerYear %}
+            keys.push('{{ key }}');
+            values.push({{ record[team.name] }});
+        {% endfor %}
+        console.log(keys);
+        create_chart('nul-games-record-chart', keys, values);
+
+    </script>
 {% endblock %}

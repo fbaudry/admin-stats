@@ -30,10 +30,11 @@ class TeamController extends AbstractController
         $teamHelper = $this->container->get(TeamHelper::class);
 
         return $this->render('team.html.twig', [
+            'awayTeamResults' => $teamHelper->getAwayTeamResults($team),
+            'homeTeamResults' => $teamHelper->getHomeTeamResults($team),
+            'recordsPerYear' => $teamHelper->getRecordsPerYear($league, $team),
             'team' => $team,
             'teamResults' => $teamHelper->getTeamResults($team),
-            'homeTeamResults' => $teamHelper->getHomeTeamResults($team),
-            'awayTeamResults' => $teamHelper->getAwayTeamResults($team)
         ]);
     }
 }

@@ -16,7 +16,9 @@
                 <div class="card-body">
                     {% for team in teamWithMostNulGames %}
                         <h4 class="small font-weight-bold">
-                            {{ loop.index }}. {{ team.name }} <span class="float-right">{{ team.nbPoints }}</span>
+                            <a href="{{ url('app_team_show', {league: league.name|slug, team: team.name|slug }) }}">
+                                {{ loop.index }}. {{ team.name }} <span class="float-right">{{ team.nbPoints }}</span>
+                            </a>
                         </h4>
                     {% endfor %}
                 </div>
@@ -32,7 +34,9 @@
                 <div class="card-body">
                     {% for team in homeTeamWithMostNulGames %}
                         <h4 class="small font-weight-bold">
-                            {{ loop.index }}. {{ team.name }} <span class="float-right">{{ team.nbPoints }}</span>
+                            <a href="{{ url('app_team_show', {league: league.name|slug, team: team.name|slug }) }}">
+                                {{ loop.index }}. {{ team.name }} <span class="float-right">{{ team.nbPoints }}</span>
+                            </a>
                         </h4>
                     {% endfor %}
                 </div>
@@ -48,7 +52,9 @@
                 <div class="card-body">
                     {% for team in awayTeamWithMostNulGames %}
                         <h4 class="small font-weight-bold">
-                            {{ loop.index }}. {{ team.name }} <span class="float-right">{{ team.nbPoints }}</span>
+                            <a href="{{ url('app_team_show', {league: league.name|slug, team: team.name|slug }) }}">
+                                {{ loop.index }}. {{ team.name }} <span class="float-right">{{ team.nbPoints }}</span>
+                            </a>
                         </h4>
                     {% endfor %}
                 </div>

@@ -10,3 +10,5 @@
 
 bin/js/node_modules
 public/json
+
+src/Command/TestCommand.php

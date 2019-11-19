@@ -234,4 +234,55 @@ class TeamHelper implements ServiceSubscriberInterface
 
         return $teamResults;
     }
+
+    public function getRecordsPerYear(League $league, Team $team)
+    {
+        $seasons = JsonParser::getFolder(\sprintf('public/json/leagues/%s/archives', $league->getName()));
+
+        $records = [];
+        $counters = [];
+
+        foreach ($seasons as $season) {
+            $records[$season] = []; $records[$season][$team->getName()] = 0;
+            $counters[$season] = []; $counters[$season][$team->getName()] = 0;
+
+            $games = JsonParser::get(\sprintf('public/json/leagues/%s/archives/%s/games.json', $league->getName(), $season));
+            $days = array_keys($games);
+            foreach ($days as $day) {
+                $gamesOfTheDay = $games[$day];
+
+                foreach ($gamesOfTheDay as $game) {
+
+                    if($game['home_team_name'] === $team->getName()) {
+                        if(!isset($counters[$season][$game['home_team_name']])) { $counters[$season][$game['home_team_name']] = 0; };
+
+                        if($game['home_team_score'] !== $game['away_team_score']) {
+                            ++$counters[$season][$game['home_team_name']];
+                            if($counters[$season][$game['home_team_name']] > $records[$season][$game['home_team_name']]) { $records[$season][$game['home_team_name']] = $counters[$season][$game['home_team_name']]; }
+
+                            continue;
+                        }
+
+                        $counters[$season][$game['home_team_name']] = 0;
+                    }
+
+                    if($game['away_team_name'] === $team->getName()) {
+                        if(!isset($counters[$season][$game['away_team_name']])) { $counters[$season][$game['away_team_name']] = 0; };
+
+                        if($game['home_team_score'] !== $game['away_team_score']) {
+                            ++$counters[$season][$game['away_team_name']];
+                            if($counters[$season][$game['away_team_name']] > $records[$season][$game['away_team_name']]) { $records[$season][$game['away_team_name']] = $counters[$season][$game['away_team_name']]; }
+
+                            continue;
+                        }
+
+                        $counters[$season][$game['home_team_name']] = 0;
+                    }
+
+                }
+            }
+        }
+
+        return $records;
+    }
 }

@@ -28,7 +28,7 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 }
 
 
-function create_chart(chartId, keys, values) {
+function create_chart(chartId, keys, nbGamesWithoutNulValues, nbNulGamesValues) {
     // Area Chart Example
     var ctx = document.getElementById(chartId);
 
@@ -105,7 +105,20 @@ function create_chart(chartId, keys, values) {
                 pointHoverBorderColor: "red",
                 pointHitRadius: 10,
                 pointBorderWidth: 2,
-                data: values,
+                data: nbGamesWithoutNulValues,
+            }, {
+                lineTension: 0.3,
+                backgroundColor: "transparent",
+                borderColor: "green",
+                pointRadius: 3,
+                pointBackgroundColor: "green",
+                pointBorderColor: "green",
+                pointHoverRadius: 3,
+                pointHoverBackgroundColor: "green",
+                pointHoverBorderColor: "green",
+                pointHitRadius: 10,
+                pointBorderWidth: 2,
+                data: nbNulGamesValues,
             }],
         },
         options: options

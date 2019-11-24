@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\League;
 use App\Entity\Team;
+use App\Helper\LeagueHelper;
 use App\Helper\TeamHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,9 +33,11 @@ class TeamController extends AbstractController
         return $this->render('team.html.twig', [
             'awayTeamResults' => $teamHelper->getAwayTeamResults($team),
             'homeTeamResults' => $teamHelper->getHomeTeamResults($team),
-            'recordsPerYear' => $teamHelper->getRecordsPerYear($league, $team),
+            'nbGamesWithoutNul' => $teamHelper->getNbNulGames($league, $team),
+            'nbGamesWithoutNulPerYear' => $teamHelper->getNbGamesWithoutNulPerYear($league, $team),
+            'nbNulGamesPerYear' => $teamHelper->getNbNulgamesPerYear($league, $team),
             'team' => $team,
-            'teamResults' => $teamHelper->getTeamResults($team),
+            'teamResults' => $teamHelper->getTeamResults($team)
         ]);
     }
 }

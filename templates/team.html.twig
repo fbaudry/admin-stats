@@ -158,7 +158,7 @@
     </div>
 
     <div class="row">
-        <div class="col-xl-8 col-lg-7">
+        <div class="col-xl-8 col-lg-8">
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -172,6 +172,59 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-xl-4 col-lg-4">
+            <div class="row">
+                <div class="col-xl-6">
+                    <div class="card border-left-danger shadow py-2">
+                        <div class="row no-gutters align-items-center pl-2">
+                            <div class="col mr-2">
+                                {% set sumratings = 0 %}
+                                {% for nb in nbGamesWithoutNulPerYear %}
+                                    {% set sumratings = sumratings + nb[team.name] %}
+                                {% endfor %}
+                                {% set average = sumratings / nbGamesWithoutNulPerYear|length %}
+                                <div class="mb-0 font-weight-bold text-gray-800">Moyenne série sans nul</div>
+                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">{{ average }}</div>
+                            </div>
+                            <div class="col-auto"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6">
+                    <div class="card border-left-success shadow py-2">
+                        <div class="row no-gutters align-items-center pl-2">
+                            <div class="col mr-2">
+                                {% set sumratings = 0 %}
+                                {% for nb in nbNulGamesPerYear %}
+                                    {% set sumratings = sumratings + nb[team.name] %}
+                                {% endfor %}
+                                {% set average = sumratings / nbNulGamesPerYear|length %}
+                                <div class="mb-0 font-weight-bold text-gray-800">Moyenne nombre de nul</div>
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">{{ average }}</div>
+                            </div>
+                            <div class="col-auto"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-xl-12">
+                    <div class="card border-left-danger shadow py-2">
+                        <div class="row no-gutters align-items-center pl-2">
+                            <div class="col mr-2">
+                                <div class="mb-0 font-weight-bold text-gray-800">Série en cours sans nul</div>
+                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">{{ nbGamesWithoutNul }}</div>
+                            </div>
+                            <div class="col-auto"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 
 {% endblock %}
@@ -181,13 +234,14 @@
 
     <script src="{{ asset('js/admin-chart.js') }}"></script>
     <script async>
-        var keys = []; var values = [];
-        {% for key, record in recordsPerYear %}
+        var keys = []; var nbGamesWithoutNulValues = []; var nbNulGamesValues = [];
+        {% for key, record in nbGamesWithoutNulPerYear %}
             keys.push('{{ key }}');
-            values.push({{ record[team.name] }});
+            nbGamesWithoutNulValues.push({{ record[team.name] }});
         {% endfor %}
-        console.log(keys);
-        create_chart('nul-games-record-chart', keys, values);
-
+        {% for key, record in nbNulGamesPerYear %}
+            nbNulGamesValues.push({{ record[team.name] }});
+        {% endfor %}
+        create_chart('nul-games-record-chart', keys, nbGamesWithoutNulValues, nbNulGamesValues);
     </script>
 {% endblock %}

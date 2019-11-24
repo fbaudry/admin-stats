@@ -235,7 +235,7 @@ class TeamHelper implements ServiceSubscriberInterface
         return $teamResults;
     }
 
-    public function getRecordsPerYear(League $league, Team $team)
+    public function getNbGamesWithoutNulPerYear(League $league, Team $team): array
     {
         $seasons = JsonParser::getFolder(\sprintf('public/json/leagues/%s/archives', $league->getName()));
 
@@ -284,5 +284,70 @@ class TeamHelper implements ServiceSubscriberInterface
         }
 
         return $records;
+    }
+
+    public function getNbNulgamesPerYear(League $league, Team $team): array
+    {
+        $seasons = JsonParser::getFolder(\sprintf('public/json/leagues/%s/archives', $league->getName()));
+
+        $records = [];
+        $counters = [];
+
+        foreach ($seasons as $season) {
+            $records[$season] = []; $records[$season][$team->getName()] = 0;
+            $counters[$season] = []; $counters[$season][$team->getName()] = 0;
+
+            $games = JsonParser::get(\sprintf('public/json/leagues/%s/archives/%s/games.json', $league->getName(), $season));
+            $days = array_keys($games);
+            foreach ($days as $day) {
+                $gamesOfTheDay = $games[$day];
+
+                foreach ($gamesOfTheDay as $game) {
+
+                    if($game['home_team_name'] === $team->getName()) {
+                        if(!isset($counters[$season][$game['home_team_name']])) { $counters[$season][$game['home_team_name']] = 0; };
+
+                        if($game['home_team_score'] === $game['away_team_score']) {
+                            ++$counters[$season][$game['home_team_name']];
+                            if($counters[$season][$game['home_team_name']] > $records[$season][$game['home_team_name']]) { $records[$season][$game['home_team_name']] = $counters[$season][$game['home_team_name']]; }
+
+                            continue;
+                        }
+
+                        $counters[$season][$game['home_team_name']] = 0;
+                    }
+
+                    if($game['away_team_name'] === $team->getName()) {
+                        if(!isset($counters[$season][$game['away_team_name']])) { $counters[$season][$game['away_team_name']] = 0; };
+
+                        if($game['home_team_score'] === $game['away_team_score']) {
+                            ++$counters[$season][$game['away_team_name']];
+                            if($counters[$season][$game['away_team_name']] > $records[$season][$game['away_team_name']]) { $records[$season][$game['away_team_name']] = $counters[$season][$game['away_team_name']]; }
+
+                            continue;
+                        }
+
+                        $counters[$season][$game['away_team_name']] = 0;
+                    }
+
+                }
+            }
+        }
+
+        return $records;
+    }
+
+    public function getNbNulGames(League $league, Team $team): int
+    {
+        $rankingDatas = JsonParser::get(sprintf('public/json/leagues/%s/game_without_nul.json', $league->getName()));
+        foreach ($rankingDatas as $data) {
+            if($data['team_name'] !== $team->getName()) {
+                continue;
+            }
+
+            return $data['nb_points'];
+        }
+
+        return 0;
     }
 }

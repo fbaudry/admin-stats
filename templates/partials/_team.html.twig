@@ -1,0 +1,67 @@
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h3 class="h3 mb-0 text-gray-800">{{ team.name }}</h3>
+</div>
+
+<div class="row">
+    {% set nbGames =  results['won'] + results['nul'] + results['lost'] %}
+    <div class="col-xl-4 col-lg-4">
+        <div class="card border-left-success shadow h-100">
+            <div class="card-body pl-3 pt-1 pb-1">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="mb-0 font-weight-bold text-gray-800">{{ results['won'] }} ({{ ((results['won']*100)/nbGames)|number_format(0) }} %)</div>
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Matchs gagnés</div>
+                    </div>
+                    <div class="col-auto"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Matchs nuls #}
+    <div class="col-xl-4 col-lg-4">
+        <div class="card border-left-warning shadow h-100">
+            <div class="card-body pl-3 pt-1 pb-1">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="mb-0 font-weight-bold text-gray-800">{{ results['nul'] }} ({{ ((results['nul']*100)/nbGames)|number_format(0) }} %)</div>
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Matchs nuls</div>
+                    </div>
+                    <div class="col-auto"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Matchs perdus #}
+    <div class="col-xl-4 col-lg-4">
+        <div class="card border-left-danger shadow h-100">
+            <div class="card-body pl-3 pt-1 pb-1">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="mb-0 font-weight-bold text-gray-800">{{ results['lost'] }} ({{ ((results['lost']*100)/nbGames)|number_format(0) }} %)</div>
+                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Matchs perdus</div>
+                    </div>
+                    <div class="col-auto"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-xl-12">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Record de série de match sans match nul</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="chart-area">
+                    <canvas id="{{ team.name|slug }}-nul-games-record-chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

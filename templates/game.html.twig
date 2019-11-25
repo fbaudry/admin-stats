@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h1 mb-0 text-gray-800">{{ homeTeam.name }} - {{ awayTeam.name }}</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            {{ include('partials/_team.html.twig', {team: homeTeam, results: home.teamResults}) }}
+        </div>
+        <div class="col-lg-6">
+                {{ include('partials/_team.html.twig', {team: awayTeam, results: away.teamResults}) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+
+<script src="{{ asset('js/admin-chart.js') }}"></script>
+<script async>
+    var homeTeam = {keys: [], nbGamesWithoutNulValues: [], nbNulGamesValues: [] };
+    var awayTeam = {keys: [], nbGamesWithoutNulValues: [], nbNulGamesValues: [] };
+
+    {% for key, record in home.nbGamesWithoutNulPerYear %}
+        homeTeam.keys.push('{{ key }}');
+        homeTeam.nbGamesWithoutNulValues.push({{ record[homeTeam.name] }});
+    {% endfor %}
+    {% for key, record in home.nbNulGamesPerYear %}
+        homeTeam.nbNulGamesValues.push({{ record[homeTeam.name] }});
+    {% endfor %}
+
+    {% for key, record in away.nbGamesWithoutNulPerYear %}
+        awayTeam.keys.push('{{ key }}');
+        awayTeam.nbGamesWithoutNulValues.push({{ record[awayTeam.name] }});
+    {% endfor %}
+    {% for key, record in away.nbNulGamesPerYear %}
+        awayTeam.nbNulGamesValues.push({{ record[awayTeam.name] }});
+    {% endfor %}
+
+    create_chart('{{ homeTeam.name|slug }}-nul-games-record-chart', homeTeam.keys, homeTeam.nbGamesWithoutNulValues, homeTeam.nbNulGamesValues);
+    create_chart('{{ awayTeam.name|slug }}-nul-games-record-chart', awayTeam.keys, awayTeam.nbGamesWithoutNulValues, awayTeam.nbNulGamesValues);
+</script>
+{% endblock %}

@@ -303,7 +303,6 @@ class TeamHelper implements ServiceSubscriberInterface
                 $gamesOfTheDay = $games[$day];
 
                 foreach ($gamesOfTheDay as $game) {
-
                     if($game['home_team_name'] === $team->getName()) {
                         if(!isset($counters[$season][$game['home_team_name']])) { $counters[$season][$game['home_team_name']] = 0; };
 
@@ -313,8 +312,6 @@ class TeamHelper implements ServiceSubscriberInterface
 
                             continue;
                         }
-
-                        $counters[$season][$game['home_team_name']] = 0;
                     }
 
                     if($game['away_team_name'] === $team->getName()) {
@@ -326,8 +323,6 @@ class TeamHelper implements ServiceSubscriberInterface
 
                             continue;
                         }
-
-                        $counters[$season][$game['away_team_name']] = 0;
                     }
 
                 }

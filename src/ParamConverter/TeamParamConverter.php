@@ -15,7 +15,7 @@ class TeamParamConverter implements ParamConverterInterface
     public function apply(Request $request, ParamConverter $configuration)
     {
         $league = $request->attributes->get('league');
-        $teamSlug = $request->attributes->get('team');
+        $teamSlug = $request->attributes->get($configuration->getName());
 
         $teams = JsonParser::get(sprintf('public/json/leagues/%s/teams.json', $league->getName()));
 
@@ -23,13 +23,12 @@ class TeamParamConverter implements ParamConverterInterface
             if($teamSlug !== SlugHelper::slugify($teamName)) {
                 continue;
             }
-
-            $request->attributes->set('team', new Team($league, $teamName));
+            $request->attributes->set($configuration->getName(), new Team($league, $teamName));
         }
     }
 
     public function supports(ParamConverter $configuration)
     {
-        return 'team' === $configuration->getName();
+        return 'team' === $configuration->getConverter();
     }
 }
